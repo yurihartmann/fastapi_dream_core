@@ -11,6 +11,12 @@ setup(
     project_urls={
         'Código fonte': 'https://github.com/yurihartmann/fastapi_dream_core',
     },
+    install_requires=[
+        'fastapi',
+        'sqlmodel',
+        'sqlalchemy',
+        'pydantic'
+    ],
     license='MIT',
     keywords='fastapi_dream_core core api',
 )
