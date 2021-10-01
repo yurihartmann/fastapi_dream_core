@@ -7,8 +7,6 @@ from fastapi import Query
 from pydantic import BaseModel, conint, create_model
 from pydantic.generics import GenericModel
 
-from fastapi_dream_core.base_repository import ModelType
-
 T = TypeVar("T")
 C = TypeVar("C")
 
@@ -70,7 +68,7 @@ class AbstractPage(GenericModel, Generic[T], ABC):
 
 
 class PaginationResult(BaseModel):
-    items: List[ModelType]
+    items: List[BaseModel]
     count: int
 
 
