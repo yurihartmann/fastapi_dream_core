@@ -20,3 +20,7 @@ class TimestampModelMixin(ABC):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     update_at: datetime = Field(default=datetime.utcnow)
     deleted_at: datetime = Field(default=None, nullable=True)
+
+
+class ModelMixin(SimpleModelMixin, TimestampModelMixin):
+    pass

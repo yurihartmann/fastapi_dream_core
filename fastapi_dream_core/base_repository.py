@@ -45,7 +45,12 @@ class BaseRepository(Generic[ModelType, CreateSchemaType, UpdateSchemaType], ABC
         return filters
 
     async def get_one_by_filters(self, filters: Dict[str, Any] = None) -> Optional[ModelType]:
-        filters = await self.__sanitize_filters_from_model(filters=filters)
+        """
+        This method make query using params, filters
+        :param filters:
+        :return: The object ModelType | None
+        """
+        filters = await self.__sanitize_filters_from_model(filters=filters) if filters else {}
         return self.session.query(self.model).filter_by(**filters).first()
 
     async def find_by_filters_paginated(
