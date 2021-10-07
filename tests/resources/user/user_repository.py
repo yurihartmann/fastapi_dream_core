@@ -1,7 +1,7 @@
 from sqlmodel import Session
 
 from fastapi_dream_core import BaseRepository
-from tests.resources.user_model import UserModel
+from tests.resources.user.user_model import UserModel
 
 
 class UserRepository(BaseRepository):

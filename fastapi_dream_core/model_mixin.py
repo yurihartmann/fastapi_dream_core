@@ -23,4 +23,4 @@ class TimestampModelMixin(ABC):
 
 
 class ModelMixin(SimpleModelMixin, TimestampModelMixin):
-    pass
+    __config__ = {}

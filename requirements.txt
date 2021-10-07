@@ -1,0 +1,10 @@
+fastapi
+pydantic
+sqlalchemy
+pytest
+pytest-cov
+pytest-mock
+mongomock
+coverage
+sqlmodel
+setuptools

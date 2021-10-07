@@ -1,17 +1,12 @@
 from abc import ABC
-from typing import TypeVar, Generic, Type, Any, Optional, Dict, Union, List
+from typing import Generic, Type, Any, Optional, Dict, Union, List
 
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
 from sqlmodel import Session
 from sqlalchemy import desc as sql_desc
 
 from fastapi_dream_core import Params, PaginationResult
-
-
-ModelType = TypeVar("ModelType")
-CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
-UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
+from fastapi_dream_core.constants import ModelType, CreateSchemaType, UpdateSchemaType
 
 
 class BaseRepository(Generic[ModelType, CreateSchemaType, UpdateSchemaType], ABC):
@@ -32,6 +27,9 @@ class BaseRepository(Generic[ModelType, CreateSchemaType, UpdateSchemaType], ABC
         :param filters: A dict with filters, example {'id': 1, 'name': 'foo'}
         :return: return the filters dict with only correct filters
         """
+        if not isinstance(filters, dict):
+            raise ValueError(f'filters should be a dict, received {type(filters)}')
+
         to_delete = []
         for key in filters.keys():
             try:
@@ -55,7 +53,7 @@ class BaseRepository(Generic[ModelType, CreateSchemaType, UpdateSchemaType], ABC
 
     async def find_by_filters_paginated(
             self,
-            params: Params = None,
+            params: Params = Params(),
             filters: dict = None,
             order: str = 'id', # TODO: ver se tem como passar mais de uma ordenação
             desc: bool = False
@@ -70,6 +68,9 @@ class BaseRepository(Generic[ModelType, CreateSchemaType, UpdateSchemaType], ABC
                 items: The data of select
                 count: with count of items for the filters
         """
+        if not isinstance(params, Params):
+            raise ValueError(f'params should be a Params obj, received {type(params)}')
+
         filters = await self.__sanitize_filters_from_model(filters=filters) if filters else {}
 
         query = self.session.query(self.model).filter_by(**filters)

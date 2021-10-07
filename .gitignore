@@ -1,6 +1,7 @@
 # Pycharm
-./.idea
+.idea
 .DS_Store
+
 # Buils
 dist
 fastapi_dream_core.egg-info
