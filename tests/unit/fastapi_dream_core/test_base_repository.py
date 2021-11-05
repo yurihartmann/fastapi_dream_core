@@ -230,6 +230,23 @@ class TestBaseRepository(unittest.IsolatedAsyncioTestCase):
         self.assertEqual('test', result.name)
         self.assertEqual(18, result.age)
 
+    async def test_create_with_dict(self):
+        # Arrange
+        create_user_dict = {
+            "name": "test",
+            "age": 18
+        }
+
+        # Act
+        result = await self.user_repository.create(
+            obj_in=create_user_dict
+        )
+
+        # Assert
+        self.assertIsInstance(result, UserModel)
+        self.assertEqual('test', result.name)
+        self.assertEqual(18, result.age)
+
     async def test_update_with_obj(self):
         # Arrange
         db_user = self.__create_user_boo()

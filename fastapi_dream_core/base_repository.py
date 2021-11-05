@@ -119,14 +119,23 @@ class BaseRepository(Generic[ModelType, CreateSchemaType, UpdateSchemaType], ABC
 
         return query.count()
 
-    async def create(self, obj_in: CreateSchemaType) -> ModelType:
+    async def create(self, obj_in: Union[CreateSchemaType, Dict[str, Any]]) -> ModelType:
         """
         This method create object in database
-        :param obj_in: The BaseModel with field and data
+        :param obj_in: The BaseModel with field and data or dict of data
         :return: The Model created
         """
-        payload = jsonable_encoder(obj_in)
-        new_obj = self.model(**payload)
+        if isinstance(obj_in, dict):
+            new_obj = self.model()
+
+            for field in obj_in:
+                if field in obj_in:
+                    setattr(new_obj, field, obj_in[field])
+
+        else:
+            payload = jsonable_encoder(obj_in)
+            new_obj = self.model(**payload)
+
         self.session.add(new_obj)
         self.session.commit()
         self.session.refresh(new_obj)
