@@ -5,6 +5,7 @@
 # Buils
 dist
 fastapi_dream_core.egg-info
+poetry.lock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -135,3 +136,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/docs/
